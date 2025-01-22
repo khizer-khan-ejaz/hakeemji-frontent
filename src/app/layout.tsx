@@ -1,6 +1,9 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { Montserrat } from 'next/font/google';
+
+
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -11,6 +14,13 @@ const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
 });
+
+const montserrat = Montserrat({
+  subsets: ['latin'], // Choose the subset (e.g., 'latin')
+  variable: '--font-montserrat', // Optional: Add a CSS variable for the font
+  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], // Include specific weights
+});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -33,10 +43,14 @@ export default function RootLayout({
       {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}
       {/* <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100,400&display=swap" rel="stylesheet" /> */}
 
+      {/* <link rel="preconnect" href="https://fonts.googleapis.com"/> */}
+      {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/> */}
+      {/* <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link> */}
+
       
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased`}
       >
         {children}
       </body>
