@@ -1,12 +1,24 @@
 import { NextResponse } from 'next/server'
 import type { NextRequest } from 'next/server'
- 
-// This function can be marked `async` if using `await` inside
+
 export function middleware(request: NextRequest) {
-  return NextResponse.redirect(new URL('/', request.url))
+  const adminCookie = request.cookies.get('access-token')?.value
+  const { pathname } = request.nextUrl
+
+  // Allow access to /admin/login and /admin/register without restriction
+  if (pathname.startsWith('/admin/login') || pathname.startsWith('/admin/register')) {
+    return NextResponse.next()
+  }
+
+  // Restrict access to all other /admin/* routes if the "admin" cookie is missing
+
+  if (!adminCookie) {
+    return NextResponse.redirect(new URL('/', request.url))
+  }
+
+  return NextResponse.next()
 }
- 
-// See "Matching Paths" below to learn more
+
 export const config = {
-  matcher: '/admin/blogs/:path*',
+  matcher: '/admin/:path*', // Matches all /admin routes
 }

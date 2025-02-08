@@ -1,6 +1,14 @@
+"use client"
+
 import React from 'react'
+import {useSelector} from "react-redux"
 
 const Navbar = () => {
+
+	// const state = useSelector(state =>{
+	// 	console.log("main states in store is " , state)
+	// })
+
   return (
 	<div className='w-[100vw] h-[10vh] flex justify-center items-center'>
 
