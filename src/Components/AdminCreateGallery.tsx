@@ -1,6 +1,8 @@
 "use client"
 
+import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
 import { convertImage } from '@/lib/utils/convertInputImageIntoBuffer';
+import { showToast } from '@/lib/utils/toast';
 import axios from 'axios';
 import { useRouter } from 'next/navigation';
 import React, { useRef, useState } from 'react'
@@ -30,6 +32,13 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 	const router = useRouter();
 
 	const hanldeSubmit = async()=>{
+
+		const isAuthority = checkAuthority();
+		if(!isAuthority){
+			authorityDenied();
+			return
+		}
+
 		try{
 			const formData = new FormData();
 			formData.append("file" , image)
@@ -49,8 +58,11 @@ const AdminCreateGallery = ({setAllGalleries , setIsCreateGalleryPopupOpen}) => 
 				return [...prev , galleryResponse?.data]
 			})
 
-		}catch(err){
+			showToast("Gallery Created Successfully", true)
+
+		}catch(err:any){
 			console.log("Error in handleSubmit " , err)
+			showToast(err.message , false)
 		}
 	}
 

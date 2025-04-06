@@ -4,6 +4,7 @@ import { FaLongArrowAltRight } from "react-icons/fa";
 import { useRouter, usePathname } from 'next/navigation';
 import { MdDeleteOutline } from "react-icons/md";
 import axios from 'axios';
+import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
 
 const Blogs = ({ blog , setBlogs }) => {
 
@@ -21,6 +22,11 @@ const Blogs = ({ blog , setBlogs }) => {
 	}
 
 	const handleDelteBlog = async(e)=>{
+		const isAuthority = checkAuthority();
+		if(!isAuthority){
+			authorityDenied();
+			return
+		}
 		try{
 			e.stopPropagation();
 			const res = await axios({
@@ -43,7 +49,7 @@ const Blogs = ({ blog , setBlogs }) => {
 	const isAdmin = localStorage.getItem("admin") || undefined
 
 	return (
-		<div onClick={(e) => handleBlogClick(blog)} className='w-full flex flex-col rounded-md overflow-hidden p-[5px] cursor-pointer transition-all duration-200 shadow-xl'>
+		<div onClick={(e) => handleBlogClick(blog)} className='w-full flex flex-col rounded-md  p-[5px] cursor-pointer transition-all duration-200 shadow-xl'>
 
 			{/* blogs image container */}
 			<div className='w-full rounded-md h-auto md:h-[200px]'>
@@ -56,12 +62,16 @@ const Blogs = ({ blog , setBlogs }) => {
 			</div>
 
 			{/* blogs content */}
-			<div className='w-full py-[10px] px-[5px]'>
-				<div className='flex flex-col gap-[10px]'> <h1 className='text-start w-full md:text-[25px]'>{blog.title}</h1>
-					<div className='w-full flex flex-col gap-[8px]'>
+			<div className='w-full py-[10px] px-[5px] flex-1 flex flex-col'>
+				<div className='flex flex-col gap-[10px] flex-1 '> <h1 className='text-start w-full md:text-[25px]'>{blog.title}</h1>
+					<div className='w-full flex flex-col gap-[8px] flex-1'>
 						<p className='md:text-[15px] text-[12px] line-clamp-3'> {blog.des} </p>
-						<button className='flex  py-[10px] px-[5px] w-full md:w-[45%] md:hover:w-[65%] transition-all duration-200 ease-in-out cursor-pointer text-nowrap font-semibold gap-[10px] justify-center items-center bg-[#65AAA1] rounded-lg'>  <span className='text-white'>Read more</span> <span className='text-white ml-auto'><FaLongArrowAltRight size={"25px"} /></span> </button>
-						{isAdmin && <button onClick={(e)=>handleDelteBlog(e)} className='flex  py-[10px] px-[5px] w-full md:w-[45%] transition-all duration-200 ease-in-out cursor-pointer text-nowrap font-semibold gap-[10px] justify-center items-center bg-red-500 rounded-lg'>  <span className='text-white'>Delete Blog</span> <span className='text-white ml-auto'><MdDeleteOutline size={"25px"} /></span> </button>}
+
+						<div className='w-full flex flex-col gap-2 mt-auto'>
+						<button className='flex  py-[10px] px-[5px] w-full md:w-[45%] md:hover:w-[65%] transition-all duration-200 ease-in-out cursor-pointer text-nowrap font-semibold gap-[10px] justify-center items-center bg-[#94DEA5] rounded-lg'>  <span className='text-white'>Read more</span> <span className='text-white ml-auto'><FaLongArrowAltRight size={"25px"} /></span> </button>
+						{isAdmin && <button onClick={(e)=>handleDelteBlog(e)} className='flex  py-[10px] px-[5px] w-full md:w-[45%] transition-all duration-200 ease-in-out cursor-pointer text-nowrap font-semibold gap-[10px] justify-center items-center bg-[#F7374F] rounded-lg'>  <span className='text-white'>Delete Blog</span> <span className='text-white ml-auto'><MdDeleteOutline size={"25px"} /></span> </button>}
+						</div>
+						
 					</div>
 				</div>
 			</div>

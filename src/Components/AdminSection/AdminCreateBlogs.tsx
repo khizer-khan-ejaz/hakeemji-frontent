@@ -6,6 +6,9 @@ import { IoAdd } from "react-icons/io5";
 import { CiImageOn } from "react-icons/ci";
 import { convertImage } from "@/lib/utils/convertInputImageIntoBuffer"
 import { MdCancel } from "react-icons/md";
+import { useRouter } from 'next/navigation';
+import { showToast } from '@/lib/utils/toast';
+import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
 
 interface ContentInfoType {
 	heading: string
@@ -114,7 +117,7 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 
 				{/* list container */}
 				<div className='w-full flex flex-col gap-[5px]'>
-					{!isAddListClicked && <button onClick={() => setIsAddListClicked(prev => !prev)} className='px-[5px] py-[8px] bg-green-400 text-white font-semibold rounded-md' >Add Points</button>}
+					{!isAddListClicked && <button onClick={() => setIsAddListClicked(prev => !prev)} className='px-[5px] py-[8px] bg-[#65AAA1] hover:bg-[#4F8C83] text-white font-semibold rounded-md' >Add Points</button>}
 					{isAddListClicked && <div className='w-full flex flex-col gap-[5px]'>
 
 						{/* this for displaying the previous points */}
@@ -134,14 +137,14 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 
 							<div className='w-full flex flex-col gap-[5px]'>
 								<input onKeyDown={(e) => handleKeyPressing(e)} value={point} onChange={(e) => [setPoint(e.target.value)]} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" placeholder='enter point' />
-								<button onClick={(e) => handleAddPoint(e)} className='bg-green-400 text-white font-semibold px-[5px] py-[8px] flex gap-[5px] justify-center items-center rounded-md' type='submit'>Add <IoAdd className='text-white' size={"20px"} /> </button>
+								<button onClick={(e) => handleAddPoint(e)} className='bg-[#65AAA1] hover:bg-[#4F8C83] text-white font-semibold px-[5px] py-[8px] flex gap-[5px] justify-center items-center rounded-md' type='submit'>Add <IoAdd className='text-white' size={"20px"} /> </button>
 							</div>
 						</div>
 
 					</div>}
 				</div>
 
-				<button type='submit' className='bg-green-400 text-white px-[5px] py-[8px] rounded-md font-semibold w-full mt-[10px]'> Add Content</button>
+				<button type='submit' className='bg-[#65AAA1] hover:bg-[#4F8C83] text-white px-[5px] py-[8px] rounded-md font-semibold w-full mt-[10px]'> Add Content</button>
 
 			</form>
 
@@ -149,18 +152,34 @@ const ContentComp = ({ containerRef, content, setContent }) => {
 	)
 }
 
-const AdminCreateBlogs = () => {
+const AdminCreateBlogs = ({prevBlog = {}}) => {
+
+	console.log("prev blog is " , prevBlog)
 
 	const [blogInfo, setBlogInfo] = useState({
-		title: "",
-		des: "",
-		metaTitle: "",
-		metaDescription: "",
-		slug: "",
-		coverImage: undefined
+		title: prevBlog.title ||  "",
+		des: prevBlog.des ||  "",
+		metaTitle: prevBlog ||  "",
+		metaDescription:  prevBlog || "",
+		slug: prevBlog.slug ||  "",
+		coverImage: prevBlog || undefined
 	})
 
 	const [content, setContent] = useState([])
+
+	useEffect(()=>{
+		setBlogInfo({
+			title: prevBlog.title ||  "",
+		des: prevBlog.des ||  "",
+		metaTitle: prevBlog ||  "",
+		metaDescription:  prevBlog || "",
+		slug: prevBlog ||  "",
+		coverImage: prevBlog || undefined
+		})
+		setContent(prevBlog.content || []);
+	},[])
+
+	console.log("current blog is " , blogInfo)
 
 	const handleInputChange = (e, prop) => {
 		setBlogInfo(prev => {
@@ -173,9 +192,20 @@ const AdminCreateBlogs = () => {
 	const containerRef = useRef()
 	const imageInputRef = useRef();
 	const [imagePreview, setImagePreview] = useState<string>('');
+	const router = useRouter();
 
 
 	const handleCreateBlog = async () => {
+
+		const isAuthority = checkAuthority();
+		if(!isAuthority){
+			authorityDenied();
+			return
+		}
+
+		console.log("inside the handle create blog")
+
+
 		try {
 			const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL
 			const formData = new FormData()
@@ -194,9 +224,12 @@ const AdminCreateBlogs = () => {
 				method: "post",
 				data: formData
 			})
+			router.push("/blogs");
+			showToast("Blog created successfully" , true)
 
-		} catch (err) {
+		} catch (err : any) {
 			console.log("Error in handleCreateBlog ", err)
+			showToast(err?.response?.data?.message , false)
 		}
 	}
 
@@ -226,7 +259,7 @@ const AdminCreateBlogs = () => {
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>* Enter the Title of Blog</span>
-					<input className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "title")} placeholder='title' />
+					<input value={blogInfo.title} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "title")} placeholder='title' />
 				</div>
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
@@ -241,34 +274,34 @@ const AdminCreateBlogs = () => {
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>* Enter the slug for Blog</span>
-					<input className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "slug")} placeholder='slug' />
+					<input value={blogInfo.slug} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "slug")} placeholder='slug' />
 				</div>
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>* Enter Blog Description</span>
-					<input className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "des")} placeholder='description' />
+					<input value={blogInfo.des} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "des")} placeholder='description' />
 				</div>
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>Enter meta title</span>
-					<input className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "metaTitle")} placeholder='meta title' />
+					<input value={blogInfo.metaTitle}  className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "metaTitle")} placeholder='meta title' />
 				</div>
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[8px]'>
 					<span>Enter meta description</span>
-					<textarea className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "metaDescription")} placeholder='meta description' />
+					<textarea value={blogInfo.metaDescription} className='bg-gray-50 p-[10px] border-[1px] border-solid border-gray-200 rounded-md ' type="text" onChange={(e) => handleInputChange(e, "metaDescription")} placeholder='meta description' />
 				</div>
 
 				{/* area for content */}
 
 				<div className='flex flex-col w-[90%] md:w-[70%] gap-[10px]'>
-					{!isContentClicked && <button onClick={() => setIsContentClicked(prev => !prev)} className='cursor-pointer bg-green-400 text-white px-[5px] py-[8px] rounded-md font-semibold'>Add Content</button>}
+					{!isContentClicked && <button onClick={() => setIsContentClicked(prev => !prev)} className='cursor-pointer bg-[#65AAA1] hover:bg-[#4F8C83]  text-white px-[5px] py-[8px] rounded-md font-semibold'>Add Content</button>}
 					{isContentClicked && <ContentComp containerRef={containerRef} content={content} setContent={setContent} />}
 				</div>
 
 				{/* blog submit button container */}
 				<div className='md:w-[50%] w-[90%] flex justify-center items-center'>
-					<button onClick={handleCreateBlog} className='md:text-[18px] w-[80%] px-[10px] py-[8px] rounded-md bg-blue-400 text-white font-semibold'> Submit Blog </button>
+					<button onClick={handleCreateBlog} className='md:text-[18px] w-[80%] px-[10px] py-[8px] rounded-md bg-gray-500 hover:bg-gray-800 text-white font-semibold'> Submit Blog </button>
 				</div>
 
 			</div>

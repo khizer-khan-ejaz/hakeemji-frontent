@@ -16,7 +16,7 @@ const BlogPage = () => {
 
 
   return (
-	<div className='w-[100vw] h-[100vh] flex flex-col justify-center items-center'>
+	<div className='w-[100vw] mt-[10vh] h-[100vh] flex flex-col justify-center items-center'>
 
 		{/* {adminUser && <AdminCreateBlog/>} */}
 

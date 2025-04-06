@@ -7,6 +7,7 @@ import LoadingComp from '@/Components/LoadingComp';
 import { CiCalendarDate } from "react-icons/ci";
 import { formatDate } from '@/lib/utils/formatDate';
 import { CiEdit } from "react-icons/ci";
+import {useRouter} from "next/navigation"
 
 const BlogPage = () => {
 
@@ -16,6 +17,7 @@ const BlogPage = () => {
 	const [loading, setLoading] = useState(true)
 
 	const user = localStorage.getItem("admin") || undefined
+	const router = useRouter();
 
 	const getBlogByParams = async () => {
 		try {
@@ -64,10 +66,19 @@ const BlogPage = () => {
 		</div>
 	}
 
+	const handleClickEditButton = async()=>{
+		try{
+			const encodedData = encodeURIComponent(JSON.stringify(blog));
+			router.push(`/admin/createblogs?blogData=${encodedData}`)
+		}catch(err){
+			console.log("Error in handleClickEditButton " , err.message)
+		}
+	}
+
 	return (
 		<div className='h-[100vh] w-[100vw] flex justify-center items-center bg-gray-100'>
 
-			{!loading ? (blog  ? <div className='scrollbar-hidden w-[95%] h-[95%] md:w-[60%] md:h-[90%] overflow-scroll bg-white rounded-lg flex justify-start items-center flex-col gap-[15px]'>
+			{!loading ? (blog  ? <div className='scrollbar-hidden mt-auto w-[95%] h-[95%] md:w-[60%] md:h-[85%] overflow-scroll bg-white rounded-lg flex justify-start items-center flex-col gap-[15px]'>
 
 				{/* container for the title of blog */}
 				<div className='w-ful flex justify-center items-center mt-[15px]'>
@@ -82,7 +93,7 @@ const BlogPage = () => {
 				{/* blog publish details */}
 				<div className='w-[90%] flex gap-[10px] justify-start items-center'>
 					<CiCalendarDate size={"20px"} /> <span className=' text-[12px] md:text-[15px]'> {formatDate(blog.createdAt)} </span>
-					{user && <CiEdit size={"20px"} className='cursor-pointer' />}
+					{user && <CiEdit onClick={handleClickEditButton} size={"20px"} className='cursor-pointer' />}
 				</div>
 
 				{/* blogs description container */}

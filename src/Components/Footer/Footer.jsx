@@ -4,7 +4,7 @@ const Footer = () => {
  return (
   <>
 
-   <footer className="footer py-3 gray-bg">
+   <footer className="footer py-3 gray-bg hidden md:block">
     <div className="container">
      <div className="">
       <div className="row align-items-center ">

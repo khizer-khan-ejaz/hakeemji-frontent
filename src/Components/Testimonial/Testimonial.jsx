@@ -52,7 +52,7 @@ const Testimonial = () => {
   };
 
   return (
-    <section className="testimonial-section">
+    <section id="testimonial" className="testimonial-section">
       <div className="container text-center">
         <h2 className="title">WHAT OUR <span>CLIENT SAYS</span></h2>
         <p className="subtitle">Our Clients send us bunch of smiles with our services, and we love them</p>

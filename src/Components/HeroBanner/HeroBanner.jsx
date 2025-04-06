@@ -12,16 +12,16 @@ const HeroBanner = () => {
                 <span className="text-uppercase text-sm letter-spacing">
                   Professional Care For Your Health
                 </span>
-                <h1 className="mb-3 mt-3">Good Health Moves Us Forward</h1>
+                <h1 className="mb-3 mt-3 md:text-[29px] text-[20px]">Good Health Moves Us Forward</h1>
 
-                <p className="mb-4 pr-5"style={{ color: "black" }}>
+                <p className="mb-4 pr-5 text-[12px] md:text-[15px]"style={{ color: "black" }}>
                   Humanity stands as a cornerstone of professionalism for any doctor. Here at our
                   clinic, we prioritize your holistic well-being, nurturing both your mental and
                   physical health with meticulous care.
                 </p>
                 <div className="btn-container">
                   <a
-                    href="appoinment.html"
+                    href="/contact"
                     target="_blank"
                     className="btn btn-main-2 btn-icon btn-round-full"
                     

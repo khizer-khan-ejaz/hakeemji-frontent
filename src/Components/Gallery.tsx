@@ -1,5 +1,7 @@
+import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
+import { showToast } from '@/lib/utils/toast';
 import axios from 'axios';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { MdCancel } from "react-icons/md";
 
 const Gallery = ({ setAllGalleries, gallery }) => {
@@ -7,6 +9,13 @@ const Gallery = ({ setAllGalleries, gallery }) => {
 	const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL;
 
 	const handleDeleteGallery = async (e) => {
+
+		const isAuthority = checkAuthority();
+		if(!isAuthority){
+			authorityDenied();
+			return
+		}
+
 		try {
 			e.stopPropagation();
 			const res = await axios({
@@ -18,10 +27,16 @@ const Gallery = ({ setAllGalleries, gallery }) => {
 					return p._id != gallery._id
 				})
 			})
-		} catch (err) {
+			showToast("Gallery deleted" , true)
+		} catch (err:any) {
 			console.log("Error in handleDeleteGallery ", err)
+			showToast(err.message , false)
 		}
 	}
+
+	const[isAdmin , setIsAdmin] = useState(localStorage.getItem("admin") ? true : false)
+
+
 
 	return (
 		<div className="max-h-[300px] h-full relative rounded-lg shadow-xl overflow-hidden">
@@ -35,14 +50,14 @@ const Gallery = ({ setAllGalleries, gallery }) => {
 			<div className="absolute inset-x-0 bottom-0 h-1/3 bg-gradient-to-b from-transparent to-black/70"></div>
 
 			{/* Description Container */}
-			<div className="absolute bottom-4 left-4 right-4 text-white md:text-[18px] font-semibold text-lg z-10 overflow-auto scrollbar-hidden">
+			<div className="absolute bottom-4 left-4 right-4 text-white md:text-[25px] text-[18px] font-semibold  z-10 overflow-auto scrollbar-hidden">
 				{gallery.des}
 			</div>
 
 			{/* delete button container */}
-			<div onClick={(e) => handleDeleteGallery(e)} className='absolute top-0 right-[4px] cursor-pointer z-[200] bg-black rounded-full'>
+			{isAdmin && <div onClick={(e) => handleDeleteGallery(e)} className='absolute top-0 right-[4px] cursor-pointer z-[200] bg-black rounded-full'>
 				<MdCancel size={"20px"} className='text-white' />
-			</div>
+			</div>}
 
 		</div>
 	);

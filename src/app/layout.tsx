@@ -1,11 +1,15 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Poppins } from "next/font/google";
 import { Montserrat } from 'next/font/google';
 import StoreProvider from "./StoreProvider";
 import dynamic from "next/dynamic";
 import 'bootstrap/dist/css/bootstrap.css';
 import "./globals.css";
 import '@icon/icofont/icofont.css';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import Toast from "@/Components/ToastContainer";
+
 
 const Header = dynamic(() => import('@/components/Header/Header'))
 const Footer = dynamic(() => import('@/components/Footer/Footer'))
@@ -26,6 +30,12 @@ const montserrat = Montserrat({
   weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'], // Include specific weights
 });
 
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+});
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -40,27 +50,31 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-      {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
-      {/* <link rel="preconnect" href="https://fonts.gstatic.com"/> */}
-      {/* <link href="https://fonts.googleapis.com/css2?family=Playwrite+IN:wght@100..400&display=swap" rel="stylesheet"> </link> */}
+        {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
+        {/* <link rel="preconnect" href="https://fonts.gstatic.com"/> */}
+        {/* <link href="https://fonts.googleapis.com/css2?family=Playwrite+IN:wght@100..400&display=swap" rel="stylesheet"> </link> */}
 
-      {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
-      {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}
-      {/* <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100,400&display=swap" rel="stylesheet" /> */}
+        {/* <link rel="preconnect" href="https://fonts.googleapis.com" /> */}
+        {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin /> */}
+        {/* <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@100,400&display=swap" rel="stylesheet" /> */}
 
-      {/* <link rel="preconnect" href="https://fonts.googleapis.com"/> */}
-      {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/> */}
-      {/* <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link> */}
+        {/* <link rel="preconnect" href="https://fonts.googleapis.com"/> */}
+        {/* <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin/> */}
+        {/* <link href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet"></link> */}
 
-      
+
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${montserrat.variable} ${poppins.className} antialiased`}
       >
-         <Header />
+
         {/* {children} */}
-        <StoreProvider>{children}</StoreProvider>
-        <Footer />
+        <StoreProvider>
+          <Header />
+          {children}
+          <Toast></Toast>
+          <Footer />
+        </StoreProvider>
       </body>
     </html>
   );

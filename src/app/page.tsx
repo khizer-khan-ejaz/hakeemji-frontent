@@ -10,16 +10,14 @@ import Testimonial from "@/components/Testimonial/Testimonial";
 import 'bootstrap/dist/css/bootstrap.css';
 
 export default function Home() {
+
   return (
     <div className="main mt-[10vh]">
       <HeroBanner />
       <Features />
-
       <About />
       <Testimonial />
-      <Counter
-      />
-
+      <Counter/>
       <Services />
       <Gallery />
       <BookList />

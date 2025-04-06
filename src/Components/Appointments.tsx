@@ -1,6 +1,8 @@
 "use client"
 
+import { authorityDenied, checkAuthority } from '@/lib/utils/checkAdmin';
 import { formatDate } from '@/lib/utils/formatDate'
+import { showToast } from '@/lib/utils/toast';
 import axios from 'axios';
 import React, { useState } from 'react'
 import { MdDelete } from "react-icons/md";
@@ -13,6 +15,11 @@ const Appointments = ({ setAppointments, appointment }) => {
 
 
 	const handleDelete = async (e) => {
+		const isAuthority = checkAuthority();
+		if(!isAuthority){
+			authorityDenied();
+			return
+		}
 		e.stopPropagation()
 		try {
 			const res = await axios({
@@ -25,9 +32,11 @@ const Appointments = ({ setAppointments, appointment }) => {
 			setAppointments(prev => {
 				return prev.filter(p => p._id != appointment._id)
 			})
+			showToast("Appointment deleted" , true)
 
-		} catch (err) {
+		} catch (err:any) {
 			console.log("Error in handleDelete ", err);
+			showToast(err.message , false)
 		}
 	}
 
