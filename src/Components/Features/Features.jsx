@@ -13,9 +13,9 @@ const Features = () => {
          <i className="icofont icofont-surgeon-alt" style={{ color: "#65aaa1" }}></i>
 
          </div>
-         <span>24 Hours Service</span>
-         <h4 className="mb-3">Online Appoinment</h4>
-         <p className="mb-4">We've implemented the principle of family medicine, ensuring continuous care and support for you and your loved ones.</p>
+         
+         <h4 className="mb-3">Clinic Address </h4>
+         <p className="mb-4">Hamdard Wellness, Hamdard Building, 2A/3 - Asaf Ali Road, New Delhi, India, 110002</p>
          <a href="/contact" className="btn btn-main btn-round-full" style={{ background: "#65aaa1",  border:"#65aaa1"}}>Make a appoinment</a>
         </div>
 
@@ -26,9 +26,10 @@ const Features = () => {
          <span>Timing schedule</span>
          <h4 className="mb-3">Working Hours</h4>
          <ul className="w-hours list-unstyled">
-          <li className="d-flex justify-content-between">Sun - Wed : <span>7:00 - 18:00</span></li>
-          <li className="d-flex justify-content-between">Thu - Fri : <span>8:00 - 18:00</span></li>
-          <li className="d-flex justify-content-between">Sat - sun : <span>9:00 - 18:00</span></li>
+          <li className="d-flex justify-content-between">Mon - Sat : <span>10:30 - 19:00</span></li>
+         
+          <li className="d-flex justify-content-between">Lunch Timing <span>14:00 - 15:00   </span></li>
+
          </ul>
         </div>
 
@@ -36,9 +37,9 @@ const Features = () => {
          <div className="feature-icon mb-4">
           <i className="icofont icofont-support" style={{ color: "#65aaa1" }}></i>
          </div>
-         <span>Emegency Cases</span>
-         <h4 className="mb-3">2-990-770-5550</h4>
-         <p>Experience all-time support for emergencies. We embrace the principle of family medicine, ensuring continuous care. Connect with us for any urgent need.</p>
+         <span>Contact number for appoinment</span>
+         <h4 className="mb-3">01123239801</h4>
+         <p></p>
         </div>
        </div>
       </div>

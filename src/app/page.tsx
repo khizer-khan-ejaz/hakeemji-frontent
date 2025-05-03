@@ -20,7 +20,7 @@ export default function Home() {
       <Counter/>
       <Services />
       <Gallery />
-      <BookList />
+     
       <Appoinment />
     </div>
   );

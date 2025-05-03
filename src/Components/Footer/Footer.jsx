@@ -3,14 +3,13 @@ import React from 'react'
 const Footer = () => {
  return (
   <>
-
-   <footer className="footer py-3 gray-bg hidden md:block">
+   <footer className="footer py-3 gray-bg mt-5">
     <div className="container">
      <div className="">
       <div className="row align-items-center ">
        <div className="col-lg-6">
         <div className="copyright">
-         &copy; Copyright Reserved by <span>Dr.Emily</span>
+         &copy; Copyright Reserved by <span>Hakeem Nausheed Ali Rana</span>
         </div>
        </div>
        <div className="col-lg-6">

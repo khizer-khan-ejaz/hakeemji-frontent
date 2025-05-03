@@ -3,28 +3,23 @@ import React from 'react'
 const About = () => {
  return (
   <>
-   <section class="section about" id='about'>
-    <div class="container position-relative">
-     <div class="row">
-      <div class="col-12 col-md-8 col-lg-6">
-       <div class="d-flex flex-column justify-content-center h-100">
-        <h2 class="about-heading">About Dr. Naushad Ali Rana</h2>
-        <p class="about-sub-heading my-2">
-        Dr. Naushad Ali Rana is a highly skilled and compassionate physician with over 15 years of experience in internal medicine. She obtained her medical degree from Harvard Medical School, where she graduated with honors, showcasing her dedication to academic excellence.
-        </p>
-        <p class="about-sub-heading my-2">
-         Dr. Sanchez completed her residency training at Massachusetts General Hospital, one of the nation's top-ranked hospitals, where she honed her clinical expertise and developed a deep understanding of complex medical conditions.
-        </p>
-        <p class="about-sub-heading my-2">
-         Known for her warm bedside manner and empathetic approach, Dr. Sanchez takes the time to listen to her patients' concerns and collaborates with them to develop personalized treatment plans. She believes in the importance of holistic care, addressing not only the physical aspects of illness but also the emotional and psychological well-being of her patients.
-        </p>
-        <p class="about-sub-heading my-2">
-         In her spare time, Dr. Sanchez enjoys hiking in the great outdoors and spending quality time with her family. She brings a genuine passion for healing and a deep sense of compassion to her practice, earning the trust and admiration of her patients and colleagues alike.
-        </p>
+   <section className="section about" id='about'>
+    <div className="container position-relative">
+     <div className="row">
+      <div className="col-12 col-md-8 col-lg-6">
+       <div className="d-flex flex-column justify-content-center h-100">
+        <h2 className="about-heading">About Dr. Naushad Ali Rana</h2>
+        <p className="about-sub-heading my-2">
+
+        Dr. Naushad Ali Rana, is a qualified and experienced Unani physician who has a passion for promoting the awareness and practice of Unani medicine as a holistic and natural way of healing and wellness.
+Dr. Rana completed his BUMS (Bachelor of Unani Medicine and Surgery) from Aligarh Muslim University in 2006 and his MD (Doctor of Medicine) in Unani Preventive and Social Medicine from the same university in 2012. He has 17 years of clinical experience, including 2 years of teaching experience in Unani medical colleges. He is also the In-Charge of the Medical Board of Physicians at Hamdard Laboratories Trust, India, a leading manufacturer of Unani medicines and products.
+Dr. Rana practices at “Hamdard Wellness” in Hamdard Building, Asaf Ali Road, New Delhi, where he provides offline consultations, prescriptions, and follow-ups to his patients. He also provides information and resources on Unani medicine, such as its history, principles, therapies, benefits, and safety issues.  He prescribes Unani medicine and diet modification to restore the equilibrium of the body and mind. He also emphasizes the importance of lifestyle, hygiene, and prevention of diseases.
+Dr. Rana is a dedicated and caring professional who shares the belief that his care should be comprehensive and courteous, responding fully to the individual needs and preferences of his patients. He is always ready to assist and answer any questions that his patients may have.
+</p>
        </div>
       </div>
-      <div class="col-12 col-md-6">
-       <img src="/images/herophoto.jpg" alt="" class="img-fluid about-img" />
+      <div className="col-12 col-md-6">
+       <img src="/images/herophoto.jpg" alt="" className="img-fluid about-img" />
       </div>
      </div>
     </div>
